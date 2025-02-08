@@ -25,38 +25,7 @@ class UserHomePage : AppCompatActivity() {
         // Retrieve the email from Intent
         val email = intent.getStringExtra("email") ?: return
 
-        // Fetch admin details from Firestorm
-        firestore.collection("Users")
-            .whereEqualTo("email", email)
-            .get()
-            .addOnSuccessListener { documents ->
-                if (!documents.isEmpty) {
-                    val adminDoc = documents.first()
-                    val name = adminDoc.getString("name") ?: "N/A"
-                    val phone = adminDoc.getString("phone") ?: "N/A"
 
-                    // Set admin details to TextViews
-                    findViewById<TextView>(R.id.tv_name).text = "Name: $name"
-                    findViewById<TextView>(R.id.tv_email).text = "Email: $email"
-                    findViewById<TextView>(R.id.tv_phone).text = "Phone: $phone"
-                } else {
-                    Toast.makeText(this, "Admin details not found", Toast.LENGTH_SHORT).show()
-                }
-            }
-            .addOnFailureListener { exception ->
-                Toast.makeText(this, "Error: ${exception.message}", Toast.LENGTH_SHORT).show()
-            }
 
-        // Handle Sign Out button click
-        val btnSignOut = findViewById<Button>(R.id.btn_sign_out)
-        btnSignOut.setOnClickListener {
-            auth.signOut()
-            Toast.makeText(this, "Signed Out Successfully", Toast.LENGTH_SHORT).show()
-
-            // Navigate to SignInActivity
-            val intent = Intent(this, UserSignInActivity::class.java)
-            startActivity(intent)
-            finish()
-        }
     }
 }

@@ -23,6 +23,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.security.MessageDigest
+import java.security.NoSuchAlgorithmException
 import kotlin.random.Random
 
 class UserSignUpActivity : AppCompatActivity() {
@@ -138,12 +140,14 @@ class UserSignUpActivity : AppCompatActivity() {
         phone: String,
         password: String
     ) {
+        val hashedPassword = hashPassword(password)
+
         val adminData = mapOf(
             "name" to name,
             "address" to address,
             "email" to email,
             "phone" to phone,
-            "password" to password
+            "password" to hashedPassword
         )
 
         firestore.collection("Users").document(email).set(adminData)
@@ -199,5 +203,15 @@ class UserSignUpActivity : AppCompatActivity() {
             .addOnFailureListener {
                 Toast.makeText(this, "Error saving verification code", Toast.LENGTH_SHORT).show()
             }
+    }
+
+    private fun hashPassword(password: String): String {
+        return try {
+            val digest = MessageDigest.getInstance("SHA-256")
+            val hashBytes = digest.digest(password.toByteArray(Charsets.UTF_8))
+            hashBytes.joinToString("") { "%02x".format(it) } // Convert bytes to hex
+        } catch (e: NoSuchAlgorithmException) {
+            throw RuntimeException("Error hashing password", e)
+        }
     }
 }

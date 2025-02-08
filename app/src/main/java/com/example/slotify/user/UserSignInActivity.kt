@@ -20,6 +20,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.security.MessageDigest
+import java.security.NoSuchAlgorithmException
 import kotlin.random.Random
 
 class UserSignInActivity : AppCompatActivity() {
@@ -82,7 +84,7 @@ class UserSignInActivity : AppCompatActivity() {
             }
 
             // Authenticate admin credentials
-            authenticateUser(email, password)
+            authenticateUser(email, hashPassword(password))
         }
 
         // Handle Sign Up text click
@@ -210,5 +212,14 @@ class UserSignInActivity : AppCompatActivity() {
             .addOnFailureListener {
                 Toast.makeText(this, "Error saving verification code", Toast.LENGTH_SHORT).show()
             }
+    }
+    private fun hashPassword(password: String): String {
+        return try {
+            val digest = MessageDigest.getInstance("SHA-256")
+            val hashBytes = digest.digest(password.toByteArray(Charsets.UTF_8))
+            hashBytes.joinToString("") { "%02x".format(it) } // Convert bytes to hex
+        } catch (e: NoSuchAlgorithmException) {
+            throw RuntimeException("Error hashing password", e)
+        }
     }
 }
