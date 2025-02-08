@@ -1,5 +1,7 @@
 package com.example.slotify.admin
 
+import android.app.AlertDialog
+import android.app.TimePickerDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -18,6 +20,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
+import java.util.Calendar
 
 class EditBusiness : AppCompatActivity() {
     private val IMAGE_REQ: Int = 1
@@ -83,6 +86,13 @@ class EditBusiness : AppCompatActivity() {
         // Set click listeners
         uploadImage.setOnClickListener { selectImage() }
         updateBusiness.setOnClickListener { updateProfile(email, businessType, businessName) }
+
+        // Show Time Picker on clicking "opening" and "closing"
+        opening.setOnClickListener { showTimePicker(opening) }
+        closing.setOnClickListener { showTimePicker(closing) }
+
+        // Show Multi-Selection Dialog for "offDay"
+        offDay.setOnClickListener { showOffDayPicker() }
 
         profileLogo.setOnClickListener {
             val intent = Intent(this, AdminHomePage::class.java)
@@ -181,6 +191,59 @@ class EditBusiness : AppCompatActivity() {
             }
     }
 
+    private fun showTimePicker(editText: EditText) {
+        val calendar = Calendar.getInstance()
+        val hour = calendar.get(Calendar.HOUR_OF_DAY)
+        val minute = calendar.get(Calendar.MINUTE)
+
+        val timePickerDialog = TimePickerDialog(
+            this,
+            { _, selectedHour, selectedMinute ->
+                val amPm: String
+                val formattedHour: Int
+
+                if (selectedHour >= 12) {
+                    amPm = "PM"
+                    formattedHour = if (selectedHour > 12) selectedHour - 12 else selectedHour
+                } else {
+                    amPm = "AM"
+                    formattedHour = if (selectedHour == 0) 12 else selectedHour
+                }
+
+                val formattedTime = String.format("%02d:%02d %s", formattedHour, selectedMinute, amPm)
+                editText.setText(formattedTime)
+            },
+            hour,
+            minute,
+            false // Set false to show AM/PM
+        )
+
+        timePickerDialog.show()
+    }
+
+    private fun showOffDayPicker() {
+        val daysArray = arrayOf("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")
+        val selectedDays = mutableListOf<String>()
+
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Select Off Days")
+
+        builder.setMultiChoiceItems(daysArray, null) { _, which, isChecked ->
+            if (isChecked) {
+                selectedDays.add(daysArray[which])
+            } else {
+                selectedDays.remove(daysArray[which])
+            }
+        }
+
+        builder.setPositiveButton("OK") { _, _ ->
+            offDay.setText(selectedDays.joinToString(", "))
+        }
+
+        builder.setNegativeButton("Cancel", null)
+        builder.show()
+    }
+
     private fun loadBusinessData(email: String, businessType: String, businessName: String) {
         firestore.collection(businessType).document(businessName)
             .get()
@@ -206,7 +269,7 @@ class EditBusiness : AppCompatActivity() {
 
                     if (originalImageUrl.isNotEmpty()) {
                         Picasso.get().load(originalImageUrl).into(businessImage)
-                        Picasso.get().load(originalImageUrl).into(profileLogo)
+                        //Picasso.get().load(originalImageUrl).into(profileLogo)
                     }
                 }
             }
