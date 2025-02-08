@@ -1,8 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@color/white">
 
@@ -23,8 +22,7 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/slotify_1"/>
-
+                android:src="@drawable/slotify_1" />
         </LinearLayout>
 
         <LinearLayout
@@ -41,7 +39,7 @@
                 android:layout_width="wrap_content"
                 android:text=""
                 android:textSize="25dp"
-                android:textColor="@color/buttonColor"/>
+                android:textColor="@color/buttonColor" />
 
             <TextView
                 android:id="@+id/business_moto"
@@ -49,8 +47,7 @@
                 android:layout_width="wrap_content"
                 android:text=""
                 android:textSize="16dp"
-                android:textColor="@color/buttonColor"/>
-
+                android:textColor="@color/buttonColor" />
         </LinearLayout>
 
         <LinearLayout
@@ -68,9 +65,7 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:src="@drawable/profile_logo" />
-
         </LinearLayout>
-
     </LinearLayout>
 
     <!-- Content Section -->
@@ -82,42 +77,150 @@
         android:orientation="vertical"
         android:padding="16dp">
 
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:id="@+id/til_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:hint="Search"
+            app:boxStrokeColor="#E1E1E1"
+            app:boxBackgroundMode="outline"
+            app:startIconDrawable="@drawable/ic_search">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:textColor="#000000" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:id="@+id/upcoming_booking"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="0dp">
+
+            <TextView
+                android:id="@+id/tv_booking"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Your Upcoming Booking: "
+                android:textSize="16sp"
+                android:textColor="@android:color/darker_gray"
+                android:layout_marginBottom="8dp" />
+
+            <!-- Updated Layout -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="140dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:background="#FFC803"
+                android:padding="8dp"
+                android:weightSum="2">
+
+                <!-- Image Section -->
+                <ImageView
+                    android:id="@+id/iv_booking_image"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/profile_logo" />
+
+                <!-- Text Section -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:padding="8dp">
+
+                    <TextView
+                        android:id="@+id/tv_booking_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="HairCut By - T Fardin"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="@android:color/black"
+                        android:layout_marginBottom="4dp" />
+
+                    <TextView
+                        android:id="@+id/tv_booking_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="09:00 PM SUNDAY, 19/12/2024"
+                        android:textSize="18sp"
+                        android:textColor="@android:color/black"
+                        android:layout_marginBottom="4dp" />
+
+                    <TextView
+                        android:id="@+id/tv_booking_location"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Fardin Spa Center Darga, Sylhet"
+                        android:textSize="14sp"
+                        android:textColor="@android:color/black" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical">
 
+            <!-- "All" Button -->
+            <Button
+                android:id="@+id/btn_all"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:text="All"
+                android:textSize="16sp"
+                android:padding="8dp"
+                android:layout_marginEnd="16dp"
+                android:backgroundTint="#402727"
+                android:textColor="@android:color/white" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:id="@+id/til_name"
+            <HorizontalScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:hint="Search"
-                app:boxStrokeColor="#E1E1E1"
-                app:boxBackgroundMode="outline"
-                app:startIconDrawable="@drawable/ic_search">
+                android:layout_height="50dp"
+                android:scrollbars="none">
 
+                <LinearLayout
+                    android:id="@+id/service_list"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:padding="8dp">
+                    <!-- Buttons will be added dynamically from Java/Kotlin -->
+                </LinearLayout>
+            </HorizontalScrollView>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPersonName"
-                    android:textColor="#000000" />
-            </com.google.android.material.textfield.TextInputLayout>
 
 
         </LinearLayout>
 
-
-
-
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_service_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:paddingTop="16dp"
+            android:clipToPadding="false"
+            android:scrollbars="vertical" />
 
 
     </LinearLayout>
+
+
 
     <!-- Bottom Shape -->
     <LinearLayout
@@ -136,7 +239,7 @@
             android:layout_weight="1"
             android:src="@drawable/ic_home"
             android:background="@android:color/transparent"
-            android:contentDescription="Home"/>
+            android:contentDescription="Home" />
 
         <ImageButton
             android:id="@+id/profile_button"
@@ -145,7 +248,7 @@
             android:layout_weight="1"
             android:src="@drawable/ic_profile"
             android:background="@android:color/transparent"
-            android:contentDescription="Profile"/>
+            android:contentDescription="Profile" />
 
         <ImageButton
             android:id="@+id/add_button"
@@ -154,7 +257,7 @@
             android:layout_weight="1"
             android:src="@drawable/ic_add"
             android:background="@android:color/transparent"
-            android:contentDescription="Add"/>
+            android:contentDescription="Add" />
 
         <ImageButton
             android:id="@+id/notification_button"
@@ -163,7 +266,7 @@
             android:layout_weight="1"
             android:src="@drawable/ic_notification"
             android:background="@android:color/transparent"
-            android:contentDescription="Notification"/>
+            android:contentDescription="Notification" />
 
         <ImageButton
             android:id="@+id/favourite_button"
@@ -172,8 +275,6 @@
             android:layout_weight="1"
             android:src="@drawable/ic_favourite"
             android:background="@android:color/transparent"
-            android:contentDescription="Dashboard"/>
-
+            android:contentDescription="Dashboard" />
     </LinearLayout>
-
 </LinearLayout>

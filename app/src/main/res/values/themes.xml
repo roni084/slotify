@@ -7,6 +7,12 @@
 
     <style name="Theme.Slotify" parent="Base.Theme.Slotify" />
 
+    <style name="ShapeAppearanceOverlay.MyApp.Image" parent="">
+        <!-- Define the shape appearance properties here -->
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">16dp</item>
+    </style>
+
     <style name="fav_3">
         <item name="cornerSize">50%</item>
     </style>
