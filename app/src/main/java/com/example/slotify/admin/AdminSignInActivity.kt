@@ -20,7 +20,7 @@ import kotlinx.coroutines.withContext
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 import kotlin.random.Random
-//ygyugg
+//review
 class AdminSignInActivity : AppCompatActivity() {
     private val firestore = FirebaseFirestore.getInstance()
     private lateinit var sharedPreferences: SharedPreferences
