@@ -19,6 +19,15 @@
         android:theme="@style/Theme.Slotify"
         tools:targetApi="31">
         <activity
+            android:name=".user.UserEditProfile"
+            android:exported="false" />
+        <activity
+            android:name=".user.UserNotification"
+            android:exported="false" />
+        <activity
+            android:name=".user.UserBooking"
+            android:exported="false" />
+        <activity
             android:name=".admin.EditBusiness"
             android:exported="false" />
         <activity
